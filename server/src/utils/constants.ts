@@ -15,11 +15,17 @@ export const errorMessages = {
   userExists: "User already exists!",
   createUser: "Error creating user!",
   invalidCredentials: "Invalid credentials!",
+  unauthorized: "Unauthorized user!",
+  unauthorizedNoToken: "Unauthorized - No token provided!",
+  unauthorizedInvalidToken: "Unauthorized - Invalid token provided!",
 };
 
 export const successMessages = {
   createUser: "User created successfully!",
   userLogin: "User logged in successfully!",
+  userUpdate: "User details updated successfully!",
+  userDeleted: "User deleted successfully!",
+  userFetch: "User fetched successfully!",
 };
 
 export const booleanValues = {
