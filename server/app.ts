@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 // Routes
 import authRoutes from "./src/routes/auth.route";
 import userRoutes from "./src/routes/user.route";
+import messageRoutes from "./src/routes/message.route";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/messages", messageRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server listening on ${PORT}!`));

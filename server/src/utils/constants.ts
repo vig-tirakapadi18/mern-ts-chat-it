@@ -26,6 +26,11 @@ export const successMessages = {
   userUpdate: "User details updated successfully!",
   userDeleted: "User deleted successfully!",
   userFetch: "User fetched successfully!",
+  usersFetch: "Users fetched successfully!",
+  messageCreated: "Message created successfully!",
+  messageDeleted: "Message deleted successfully!",
+  messageFetch: "Messages fetched successfully!",
+  messageUpdated: "Message updated successfully!",
 };
 
 export const booleanValues = {
