@@ -7,7 +7,7 @@ import {
   successMessages,
 } from "../utils/constants";
 import Message from "../models/message.model";
-import cloudinary from "../lib/cloudinary";
+import cloudinary from "../db/cloudinary";
 
 export const getUsersForSidebar = async (req: Request, res: Response) => {
   const userId = req.userId;
