@@ -5,7 +5,7 @@ import {
   statusCodes,
   successMessages,
 } from "../utils/constants";
-import cloudinary from "../lib/cloudinary";
+import cloudinary from "../db/cloudinary";
 import User from "../models/user.model";
 
 export const updateUserDetails = async (req: Request, res: Response) => {
