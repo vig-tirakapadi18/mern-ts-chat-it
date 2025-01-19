@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
-import { ISignInFormData, ISignUpFormData } from "../types";
+import { ISignInFormData, ISignUpFormData, IUpdateProfile } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
@@ -19,6 +19,7 @@ interface IAuthState {
   signUp: (data: ISignUpFormData) => void;
   signOut: () => void;
   signIn: (data: ISignInFormData) => void;
+  updateProfile: (data: IUpdateProfile) => void;
 }
 
 export const useAuthStore = create<IAuthState>((set) => ({
@@ -30,7 +31,7 @@ export const useAuthStore = create<IAuthState>((set) => ({
 
   getLoggedInUser: async () => {
     try {
-      const response = await axiosInstance.get("/auth/logged-user");
+      const response = await axiosInstance.get("/users/user/logged-user");
       set({ authUser: response.data.user });
     } catch (error) {
       console.log("GET LOGGED IN USER", error);
@@ -90,6 +91,26 @@ export const useAuthStore = create<IAuthState>((set) => ({
       } else {
         toast.error("Error creating the account!");
       }
+    }
+  },
+
+  updateProfile: async (data: IUpdateProfile) => {
+    try {
+      const response = await axiosInstance.put(
+        "/users/user/update-details",
+        data
+      );
+
+      set({ authUser: response.data.user });
+    } catch (error: unknown) {
+      console.log("UPDATE PROFILE", error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("Error updating the profile!");
+      }
+    } finally {
+      set({ isUpdatingProfile: false });
     }
   },
 }));

@@ -10,7 +10,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/generateToken";
 
 export const signUp = async (req: Request, res: Response) => {
-  const { name, email, password, profilePic } = req.body;
+  const { name, email, password } = req.body;
 
   if (!name || !email || !password || password.length < 8) {
     res.status(statusCodes.code400).json({

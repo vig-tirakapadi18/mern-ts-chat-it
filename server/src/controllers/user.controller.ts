@@ -12,7 +12,7 @@ export const updateUserDetails = async (req: Request, res: Response) => {
   const { name, profilePic } = req.body;
   const userId = req.userId;
 
-  if (!name || !profilePic) {
+  if (!profilePic) {
     res.status(statusCodes.code400).json({
       success: booleanValues.falseValue,
       message: errorMessages.invalidInputRequest,

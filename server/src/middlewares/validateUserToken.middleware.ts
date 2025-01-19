@@ -33,7 +33,7 @@ export const validateUserToken = async (
       });
     }
 
-    req.userId = (decoded as jwt.JwtPayload).userId;
+    req.userId = (decoded as jwt.JwtPayload).id;
 
     next();
   } catch (error: unknown) {
