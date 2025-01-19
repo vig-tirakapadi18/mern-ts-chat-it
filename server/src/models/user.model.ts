@@ -8,7 +8,7 @@ const userSchema = new Schema(
     profilePic: {
       type: String,
       default:
-        "https://images.freeimages.com/image/thumbs/b3f/insta-profile-icon-png-5690389.png",
+        "https://res.cloudinary.com/ddb8op2fe/image/upload/v1737289760/7502639_no71aa.webp",
     },
   },
   { timestamps: true }

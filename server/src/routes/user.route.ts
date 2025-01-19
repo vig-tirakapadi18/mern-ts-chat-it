@@ -7,8 +7,8 @@ import { validateUserToken } from "../middlewares/validateUserToken.middleware";
 
 const router = Router();
 
-router.put("/update-details", validateUserToken, updateUserDetails);
+router.put("/user/update-details", validateUserToken, updateUserDetails);
 
-router.get("/logged-user", getLoggedInUser);
+router.get("/user/logged-user", validateUserToken, getLoggedInUser);
 
 export default router;

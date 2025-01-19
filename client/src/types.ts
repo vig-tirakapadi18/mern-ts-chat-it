@@ -8,3 +8,8 @@ export interface ISignInFormData {
   email: string;
   password: string;
 }
+
+export interface IUpdateProfile {
+  name?: string;
+  profilePic: any;
+}
