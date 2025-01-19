@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
-import { IFormData } from "../types";
+import { ISignInFormData, ISignUpFormData } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
@@ -16,8 +16,9 @@ interface IAuthState {
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
   getLoggedInUser: () => void;
-  signUp: (data: IFormData) => void;
+  signUp: (data: ISignUpFormData) => void;
   signOut: () => void;
+  signIn: (data: ISignInFormData) => void;
 }
 
 export const useAuthStore = create<IAuthState>((set) => ({
@@ -39,7 +40,7 @@ export const useAuthStore = create<IAuthState>((set) => ({
     }
   },
 
-  signUp: async (data: IFormData) => {
+  signUp: async (data: ISignUpFormData) => {
     set({ isSigningUp: true });
     try {
       const response = await axiosInstance.post("/auth/sign-up", data);
@@ -54,6 +55,25 @@ export const useAuthStore = create<IAuthState>((set) => ({
       console.log("SIGN UP", error);
     } finally {
       set({ isSigningUp: false });
+    }
+  },
+
+  signIn: async (data: ISignInFormData) => {
+    set({ isSigningIn: true });
+    try {
+      const response = await axiosInstance.post("/auth/sign-in", data);
+      set({ authUser: response.data });
+
+      toast.success("User signed in successfully!");
+    } catch (error) {
+      console.log("SIGN IN", error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("Error creating the account!");
+      }
+    } finally {
+      set({ isSigningIn: false });
     }
   },
 

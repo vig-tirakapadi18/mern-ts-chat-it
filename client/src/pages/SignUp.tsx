@@ -8,11 +8,11 @@ import RingSpinner from "../components/UI/RingSpinner";
 import { Link } from "react-router-dom";
 import AuthImagePattern from "../components/UI/AuthImagePattern";
 import toast from "react-hot-toast";
-import { IFormData } from "../types";
+import { ISignUpFormData } from "../types";
 
 const SignUp: FC = (): React.JSX.Element => {
   const [showPassword, setShowPassword] = useState<boolean>();
-  const [formData, setFormData] = useState<IFormData>({
+  const [formData, setFormData] = useState<ISignUpFormData>({
     name: "",
     email: "",
     password: "",
@@ -151,11 +151,11 @@ const SignUp: FC = (): React.JSX.Element => {
             </div>
 
             <button
-              className="btn bg-[dodgerblue] text-white w-full"
+              className="btn bg-[dodgerblue] text-white w-full hover:bg-[dodgerblue] hover:bg-opacity-95"
               disabled={isSigningUp}
               type="submit"
             >
-              {false ? (
+              {isSigningUp ? (
                 <div className="flex items-center gap-1">
                   <RingSpinner width={30} />
                   <span className="text-white">Loading...</span>
