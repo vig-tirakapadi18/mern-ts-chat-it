@@ -17,6 +17,7 @@ interface IAuthState {
   isCheckingAuth: boolean;
   getLoggedInUser: () => void;
   signUp: (data: IFormData) => void;
+  signOut: () => void;
 }
 
 export const useAuthStore = create<IAuthState>((set) => ({
