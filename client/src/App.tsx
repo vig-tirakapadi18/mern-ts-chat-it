@@ -8,9 +8,12 @@ import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import LoadingSpinner from "./components/UI/LoadingSpinner";
+import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
   const { authUser, getLoggedInUser, isCheckingAuth } = useAuthStore();
+
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     getLoggedInUser();
@@ -23,7 +26,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div data-theme={theme}>
       <Navbar />
 
       <Routes>
