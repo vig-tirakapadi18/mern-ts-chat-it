@@ -1,6 +1,5 @@
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, FormEvent, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import avatar from "../assets/avatar.webp";
 import { FcOldTimeCamera } from "react-icons/fc";
 import { FaUser } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
@@ -8,8 +7,11 @@ import { IoIosMail } from "react-icons/io";
 const Profile: FC = (): React.JSX.Element => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [updatedName, setUpdatedName] = useState<string>(
+    authUser?.name as string
+  );
 
-  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
 
     if (!file) return;
@@ -20,12 +22,20 @@ const Profile: FC = (): React.JSX.Element => {
     reader.onload = async () => {
       const base64Image = reader.result;
       setSelectedImage(base64Image as any);
-      await updateProfile({ profilePic: base64Image as any });
     };
   };
 
+  const handleProfileUpdate = async (event: FormEvent) => {
+    event.preventDefault();
+
+    await updateProfile({
+      name: updatedName,
+      profilePic: selectedImage,
+    });
+  };
+
   return (
-    <section className="h-screen pt-20">
+    <form className="h-screen pt-20" onSubmit={handleProfileUpdate}>
       <div className="max-w-2xl mx-auto p-4 py-8">
         <div className="bg-base-300 rounded-xl p-6 space-y-8">
           <div className="text-center">
@@ -66,15 +76,19 @@ const Profile: FC = (): React.JSX.Element => {
             </p>
           </div>
 
-          <form className="space-y-6">
+          <div className="space-y-6">
             <div className="space-y-2">
               <div className="text-sm text-zinc-400 flex items-center gap-2">
                 <FaUser size={18} />
                 Full Name
               </div>
-              <p className="px-4 py-4 bg-base-200 rounded-lg border">
-                {authUser?.name}
-              </p>
+              <input
+                value={updatedName}
+                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                  setUpdatedName(event.target.value)
+                }
+                className="px-4 py-2 w-full bg-base-200 rounded-lg border text-gray-200"
+              />
             </div>
 
             <div className="space-y-2">
@@ -82,14 +96,21 @@ const Profile: FC = (): React.JSX.Element => {
                 <IoIosMail size={22} />
                 Email
               </div>
-              <p className="px-4 py-4 bg-base-200 rounded-lg border">
+              <p className="px-4 py-2 bg-base-200 rounded-lg border disabled cursor-not-allowed text-gray-500">
                 {authUser?.email}
               </p>
             </div>
-          </form>
+
+            <button
+              className="bg-[dodgerblue] text-white cursor-pointer w-full py-2 rounded-md hover:opacity-95"
+              type="submit"
+            >
+              Update Profile
+            </button>
+          </div>
         </div>
       </div>
-    </section>
+    </form>
   );
 };
 
