@@ -6,9 +6,6 @@ import toast from "react-hot-toast";
 // interface IMessage {}
 
 interface IChatStore {
-  //   messages: IMessage[];
-  //   users: IUser[];
-  //   selectedUser: IUser | null;
   messages: any;
   users: any;
   selectedUser: any;
@@ -57,4 +54,6 @@ export const useChatStore = create<IChatStore>((set) => ({
       set({ isMessagesLoading: false });
     }
   },
+
+  setSelectedUser: () => (selectedUser: any) => set({ selectedUser }),
 }));
