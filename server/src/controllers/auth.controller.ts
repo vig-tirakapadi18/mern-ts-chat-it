@@ -108,6 +108,9 @@ export const signIn = async (req: Request, res: Response) => {
 export const signOut = (req: Request, res: Response) => {
   try {
     res.cookie("chatIt", "", { maxAge: 0 });
+    res
+      .status(200)
+      .json({ success: true, message: successMessages.userSignOut });
   } catch (error: unknown) {
     console.log("SIGN OUT", error);
     res

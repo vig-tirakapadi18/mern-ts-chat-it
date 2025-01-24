@@ -44,7 +44,7 @@ const Navbar: FC = (): React.JSX.Element => {
                   <span className="hidden sm:inline">Profile</span>
                 </Link>
                 <Link
-                  to="/sign-out"
+                  to="/sign-up"
                   className="btn btn-sm flex gap-2 items-center bg-rose-500 text-black hover:bg-rose-500 hover:bg-opacity-95"
                   onClick={signOut}
                 >

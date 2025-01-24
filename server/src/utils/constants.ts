@@ -31,6 +31,7 @@ export const successMessages = {
   messageDeleted: "Message deleted successfully!",
   messageFetch: "Messages fetched successfully!",
   messageUpdated: "Message updated successfully!",
+  userSignOut: "User signed out successfully!",
 };
 
 export const booleanValues = {
