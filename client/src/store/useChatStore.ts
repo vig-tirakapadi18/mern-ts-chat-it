@@ -2,16 +2,16 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
-
-// interface IMessage {}
+import { IUser } from "../types";
 
 interface IChatStore {
   messages: any;
-  users: any;
+  users: IUser[];
   selectedUser: any;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
   getUsers: () => void;
+  setSelectedUser: (selectedUser: any) => void;
 }
 
 export const useChatStore = create<IChatStore>((set) => ({
@@ -55,5 +55,5 @@ export const useChatStore = create<IChatStore>((set) => ({
     }
   },
 
-  setSelectedUser: () => (selectedUser: any) => set({ selectedUser }),
+  setSelectedUser: (selectedUser: IUser) => set({ selectedUser }),
 }));

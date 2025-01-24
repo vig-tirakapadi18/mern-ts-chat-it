@@ -82,7 +82,7 @@ export const useAuthStore = create<IAuthState>((set) => ({
 
   signOut: async () => {
     try {
-      await axiosInstance.post("/auth/sign-out");
+      await axiosInstance.post("/auth/sign-out", { method: "POST" });
       set({ authUser: null });
 
       toast.success("User signed out successfully!");

@@ -13,3 +13,10 @@ export interface IUpdateProfile {
   name?: string;
   profilePic: any;
 }
+
+export interface  {
+  _id: string;
+  name: string;
+  email: string;
+  profilePic: string;
+}
