@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { useChatStore } from "../store/useChatStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { FaUsers } from "react-icons/fa";
+import { useAuthStore } from "../store/useAuthStore";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } =
     useChatStore();
 
-  const onlineUsers = [];
+  const { onlineUsers } = useAuthStore();
 
   useEffect(() => {
     getUsers();
@@ -18,9 +19,9 @@ const Sidebar = () => {
   return (
     <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
       <div className="border-b border-base-300 w-full p-5">
-        <div className="flex items-center gap-2">
-          <FaUsers />
+        <div className="flex items-center gap-2 text-[dodgerblue] text-2xl justify-between">
           <span className="font-medium hidden lg:block">Contacts</span>
+          <FaUsers size={30} />
         </div>
       </div>
 
@@ -39,7 +40,7 @@ const Sidebar = () => {
               <img
                 src={user.profilePic}
                 alt={user.name}
-                className="size-1/2 object-cover rounded-full"
+                className="size-1/2 object-cover rounded-full w-10"
               />
 
               {onlineUsers.includes(user._id) && (
@@ -48,7 +49,9 @@ const Sidebar = () => {
             </div>
 
             <div className="hidden lg:block text-left min-w-0">
-              <div className="font-medium truncate">{user.fullName}</div>
+              <div className="font-medium truncate">
+                {user.fullName || "Anonymous"}
+              </div>
               <div className="text-sm text-zinc-400">
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>
