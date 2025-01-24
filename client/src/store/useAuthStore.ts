@@ -20,6 +20,7 @@ interface IAuthState {
   signOut: () => void;
   signIn: (data: ISignInFormData) => void;
   updateProfile: (data: IUpdateProfile) => void;
+  onlineUsers: any[];
 }
 
 export const useAuthStore = create<IAuthState>((set) => ({
@@ -28,6 +29,7 @@ export const useAuthStore = create<IAuthState>((set) => ({
   isSigningIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  onlineUsers: [],
 
   getLoggedInUser: async () => {
     try {

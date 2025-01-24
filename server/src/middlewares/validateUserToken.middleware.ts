@@ -31,12 +31,14 @@ export const validateUserToken = async (
         success: booleanValues.falseValue,
         message: errorMessages.unauthorizedInvalidToken,
       });
+      return;
     }
 
     req.userId = (decoded as jwt.JwtPayload).id;
 
     next();
   } catch (error: unknown) {
+    console.log("VALIDATE USER TOKEN", error)
     res.status(statusCodes.code500).json({
       success: booleanValues.falseValue,
       message: errorMessages.internalServerError,

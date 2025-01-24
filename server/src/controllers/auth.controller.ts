@@ -76,6 +76,11 @@ export const signIn = async (req: Request, res: Response) => {
       return;
     }
 
+    const token = generateToken(
+      { id: user._id.toString(), email: user.email },
+      res
+    );
+
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
@@ -90,6 +95,7 @@ export const signIn = async (req: Request, res: Response) => {
       success: booleanValues.trueValue,
       message: successMessages.userLogin,
       user: { email: user.email, name: user.name, profilePic: user.profilePic },
+      token,
     });
   } catch (error: unknown) {
     console.log("SIGN IN", error);
