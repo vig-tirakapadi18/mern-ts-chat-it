@@ -11,10 +11,10 @@ export interface ISignInFormData {
 
 export interface IUpdateProfile {
   name?: string;
-  profilePic: any;
+  profilePic: string;
 }
 
-export interface  {
+export interface IUser  {
   _id: string;
   name: string;
   email: string;

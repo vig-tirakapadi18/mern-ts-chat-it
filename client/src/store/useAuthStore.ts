@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
-import { ISignInFormData, ISignUpFormData, IUpdateProfile } from "../types";
+import { ISignInFormData, ISignUpFormData, IUpdateProfile, IUser } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
@@ -20,7 +20,7 @@ interface IAuthState {
   signOut: () => void;
   signIn: (data: ISignInFormData) => void;
   updateProfile: (data: IUpdateProfile) => void;
-  onlineUsers: any[];
+  onlineUsers: IUser[];
 }
 
 export const useAuthStore = create<IAuthState>((set) => ({
