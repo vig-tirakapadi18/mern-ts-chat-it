@@ -25,7 +25,7 @@ const ChatContainer: FC = (): React.JSX.Element => {
     <section className="flex-1 flex-col overflow-auto">
       <ChatHeader />
 
-      <section className="flex-1 overflow-x-auto p-4 space-y-0">
+      <section className="flex-1 overflow-y-scroll p-4 space-y-0">
         {messages.map((message: IMessage) => (
           <div
             key={message._id}
