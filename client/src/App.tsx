@@ -11,7 +11,10 @@ import LoadingSpinner from "./components/UI/LoadingSpinner";
 import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
-  const { authUser, getLoggedInUser, isCheckingAuth } = useAuthStore();
+  const { authUser, getLoggedInUser, isCheckingAuth, onlineUsers } =
+    useAuthStore();
+
+  console.log(onlineUsers);
 
   const { theme } = useThemeStore();
 

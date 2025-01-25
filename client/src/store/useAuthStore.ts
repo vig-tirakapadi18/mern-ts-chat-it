@@ -145,6 +145,10 @@ export const useAuthStore = create<IAuthState>((set, get) => ({
     socket.connect();
 
     set({ socket });
+
+    socket.on("getOnlineUsers", (onlineUserIds) => {
+      set({ onlineUsers: onlineUserIds });
+    });
   },
 
   disconnectSocket: () => {
