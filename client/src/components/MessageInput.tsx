@@ -53,7 +53,7 @@ const MessageInput = () => {
   };
 
   return (
-    <section className="p-4 w-full">
+    <section className="p-4 w-full sticky bottom-0">
       {imagePreview && (
         <div className="mb-3 flex items-center gap-2">
           <div className="relative">

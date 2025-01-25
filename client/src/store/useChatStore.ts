@@ -2,17 +2,18 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { IUser } from "../types";
+import { IMessage, IUser } from "../types";
 
 interface IChatStore {
-  messages: any;
+  messages: IMessage[];
   users: IUser[];
-  selectedUser: IUser | null;
+  selectedUser: IUser | null | undefined;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
   getUsers: () => void;
-  setSelectedUser: (selectedUser: IUser) => void;
+  setSelectedUser: (selectedUser: IUser | null) => void;
   sendMessage: (messageData: any) => void;
+  getMessages: (userId: string | undefined) => void;
 }
 
 export const useChatStore = create<IChatStore>((set, get) => ({
@@ -39,7 +40,7 @@ export const useChatStore = create<IChatStore>((set, get) => ({
     }
   },
 
-  getMessages: async (userId: string) => {
+  getMessages: async (userId: string | undefined) => {
     set({ isMessagesLoading: true });
     try {
       const response = await axiosInstance.get(`/messages/${userId}`);
@@ -74,5 +75,5 @@ export const useChatStore = create<IChatStore>((set, get) => ({
     }
   },
 
-  setSelectedUser: (selectedUser: IUser) => set({ selectedUser }),
+  setSelectedUser: (selectedUser: IUser | null) => set({ selectedUser }),
 }));

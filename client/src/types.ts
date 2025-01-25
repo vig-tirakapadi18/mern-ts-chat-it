@@ -20,3 +20,11 @@ export interface IUser  {
   email: string;
   profilePic: string;
 }
+
+export interface IMessage {
+  _id: string;
+  senderId: string;
+  createdAt: Date;
+  message: string;
+  image: string;
+}
