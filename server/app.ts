@@ -3,13 +3,12 @@ import "dotenv/config";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectToDB } from "./src/db/connectToDB";
+import { app, server } from "./src/socketio/socket";
 
 // Routes
 import authRoutes from "./src/routes/auth.route";
 import userRoutes from "./src/routes/user.route";
 import messageRoutes from "./src/routes/message.route";
-
-const app = express();
 
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
@@ -30,7 +29,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server listening on ${PORT}!`);
   connectToDB();
 });
