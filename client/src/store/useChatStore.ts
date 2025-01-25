@@ -7,14 +7,15 @@ import { IUser } from "../types";
 interface IChatStore {
   messages: any;
   users: IUser[];
-  selectedUser: any;
+  selectedUser: IUser | null;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
   getUsers: () => void;
-  setSelectedUser: (selectedUser: any) => void;
+  setSelectedUser: (selectedUser: IUser) => void;
+  sendMessage: (messageData: any) => void;
 }
 
-export const useChatStore = create<IChatStore>((set) => ({
+export const useChatStore = create<IChatStore>((set, get) => ({
   messages: [],
   users: [],
   selectedUser: null,
@@ -52,6 +53,24 @@ export const useChatStore = create<IChatStore>((set) => ({
       }
     } finally {
       set({ isMessagesLoading: false });
+    }
+  },
+
+  sendMessage: async (messageData) => {
+    const { selectedUser, messages } = get();
+
+    try {
+      const response = await axiosInstance.post(
+        `/messages/send/${selectedUser?._id}`,
+        messageData
+      );
+      set({ messages: [...messages, response.data.message] });
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("Error sending message!");
+      }
     }
   },
 
