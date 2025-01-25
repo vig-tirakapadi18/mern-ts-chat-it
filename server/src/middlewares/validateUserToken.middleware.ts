@@ -23,6 +23,7 @@ export const validateUserToken = async (
         success: booleanValues.falseValue,
         message: errorMessages.unauthorizedNoToken,
       });
+      return;
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
@@ -38,7 +39,7 @@ export const validateUserToken = async (
 
     next();
   } catch (error: unknown) {
-    console.log("VALIDATE USER TOKEN", error)
+    console.log("VALIDATE USER TOKEN", error);
     res.status(statusCodes.code500).json({
       success: booleanValues.falseValue,
       message: errorMessages.internalServerError,
