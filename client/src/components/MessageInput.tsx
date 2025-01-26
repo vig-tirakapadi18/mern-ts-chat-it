@@ -5,7 +5,7 @@ import { ImImage } from "react-icons/im";
 import { BsSendFill } from "react-icons/bs";
 import toast from "react-hot-toast";
 
-const MessageInput = () => {
+const MessageInput = (): React.JSX.Element => {
   const [message, setMessage] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
