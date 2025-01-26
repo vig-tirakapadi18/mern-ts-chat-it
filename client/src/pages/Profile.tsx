@@ -30,7 +30,9 @@ const Profile: FC = (): React.JSX.Element => {
 
     await updateProfile({
       name: updatedName,
-      profilePic: selectedImage,
+      profilePic:
+        selectedImage ||
+        "https://res.cloudinary.com/ddb8op2fe/image/upload/v1737289760/7502639_no71aa.webp",
     });
   };
 

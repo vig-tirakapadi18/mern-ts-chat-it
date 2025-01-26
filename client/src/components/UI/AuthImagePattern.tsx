@@ -10,7 +10,7 @@ const AuthImagePattern: FC<IAuthImagePatternProps> = ({
   title,
   subtitle,
   bgImage,
-}) => {
+}): React.JSX.Element => {
   return (
     <div className="flex justify-center items-center gap-2 flex-col">
       <img src={bgImage} alt="ChatIt" width={500} />

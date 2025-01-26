@@ -4,7 +4,7 @@ import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { FaUsers } from "react-icons/fa";
 import { useAuthStore } from "../store/useAuthStore";
 
-const Sidebar = () => {
+const Sidebar = (): React.JSX.Element => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } =
     useChatStore();
 
