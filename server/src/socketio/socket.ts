@@ -13,6 +13,8 @@ export const io = new Server(server, {
 
 const userSocketMap: Record<string, string> = {}; // { userId: socketConnectionId}
 
+export const getReceiverSocketId = (userId: string) => userSocketMap[userId];
+
 io.on("connection", (socket) => {
   console.log("New user connected!", socket.id);
 

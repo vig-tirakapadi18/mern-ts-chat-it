@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { FaUsers } from "react-icons/fa";
@@ -9,10 +9,16 @@ const Sidebar = () => {
     useChatStore();
 
   const { onlineUsers } = useAuthStore();
+  const [showOnlineUsersOnly, setShowOnlineUsersOnly] =
+    useState<boolean>(false);
 
   useEffect(() => {
     getUsers();
   }, [getUsers]);
+
+  const filteredOnlineUsers = showOnlineUsersOnly
+    ? users.filter((user) => onlineUsers.includes(user._id))
+    : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
@@ -23,10 +29,25 @@ const Sidebar = () => {
           <span className="font-medium hidden lg:block">Contacts</span>
           <FaUsers size={30} />
         </div>
+
+        <div className="mt-3 hidde lg:flex items-center gap-2">
+          <label className="cursor-pointer flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={showOnlineUsersOnly}
+              onChange={(event) => setShowOnlineUsersOnly(event.target.checked)}
+              className="checkbox checkbox-sm"
+            />
+            <span className="text-sm">Show Online Only</span>
+          </label>
+          <span className="text-xs text-stone-500">
+            ({onlineUsers.length - 1} online)
+          </span>
+        </div>
       </div>
 
       <div className="overflow-y-auto w-full py-3">
-        {users.map((user) => (
+        {filteredOnlineUsers.map((user) => (
           <button
             key={user._id}
             onClick={() => setSelectedUser(user)}
@@ -58,6 +79,12 @@ const Sidebar = () => {
             </div>
           </button>
         ))}
+
+        {filteredOnlineUsers.length === 0 && (
+          <div className="text-center text-stone-500 py-4">
+            No Online Users!
+          </div>
+        )}
       </div>
     </aside>
   );

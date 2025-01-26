@@ -3,6 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { IMessage, IUser } from "../types";
+import { useAuthStore } from "./useAuthStore";
 
 interface IChatStore {
   messages: IMessage[];
@@ -14,6 +15,8 @@ interface IChatStore {
   setSelectedUser: (selectedUser: IUser | null) => void;
   sendMessage: (messageData: any) => void;
   getMessages: (userId: string | undefined) => void;
+  subscribeToMessages: () => void;
+  unsubscribeFromMessages: () => void;
 }
 
 export const useChatStore = create<IChatStore>((set, get) => ({
@@ -76,4 +79,24 @@ export const useChatStore = create<IChatStore>((set, get) => ({
   },
 
   setSelectedUser: (selectedUser: IUser | null) => set({ selectedUser }),
+
+  subscribeToMessages: () => {
+    const { selectedUser } = get();
+
+    if (!selectedUser) return;
+
+    const socket = useAuthStore.getState().socket;
+
+    socket.on("newMessage", (newMessage: IMessage) => {
+      if (newMessage.senderId !== selectedUser._id) return;
+      // returns if the message is not sent from a secected User
+
+      set({ messages: [...get().messages, newMessage] });
+    });
+  },
+
+  unsubscribeFromMessages: () => {
+    const socket = useAuthStore.getState().socket;
+    socket.off("newMessage");
+  },
 }));

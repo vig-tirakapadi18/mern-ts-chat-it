@@ -1,11 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
-import {
-  ISignInFormData,
-  ISignUpFormData,
-  IUpdateProfile,
-  IUser,
-} from "../types";
+import { ISignInFormData, ISignUpFormData, IUpdateProfile } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { io } from "socket.io-client";
@@ -23,7 +18,7 @@ interface IAuthState {
   isSigningIn: boolean;
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
-  onlineUsers: IUser[];
+  onlineUsers: string[];
   socket: any;
   getLoggedInUser: () => void;
   signUp: (data: ISignUpFormData) => void;
