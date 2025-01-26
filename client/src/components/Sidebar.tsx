@@ -30,20 +30,29 @@ const Sidebar = () => {
           <FaUsers size={30} />
         </div>
 
-        <div className="mt-3 hidde lg:flex items-center gap-2">
-          <label className="cursor-pointer flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={showOnlineUsersOnly}
-              onChange={(event) => setShowOnlineUsersOnly(event.target.checked)}
-              className="checkbox checkbox-sm"
-            />
-            <span className="text-sm">Show Online Only</span>
-          </label>
-          <span className="text-xs text-stone-500">
-            ({onlineUsers.length - 1} online)
-          </span>
-        </div>
+        {onlineUsers.length > 0 ? (
+          <div className="mt-3 hidden lg:flex items-center gap-2">
+            <label className="cursor-pointer flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showOnlineUsersOnly}
+                onChange={(event) =>
+                  setShowOnlineUsersOnly(event.target.checked)
+                }
+                className="checkbox checkbox-sm"
+              />
+              <span className="text-sm">Show Online Only</span>
+            </label>
+
+            <span className="text-xs text-stone-500">
+              ({onlineUsers.length - 1} online)
+            </span>
+          </div>
+        ) : (
+          <div className="text-center text-stone-500 py-4">
+            No Online Users!
+          </div>
+        )}
       </div>
 
       <div className="overflow-y-auto w-full py-3">
@@ -80,11 +89,9 @@ const Sidebar = () => {
           </button>
         ))}
 
-        {filteredOnlineUsers.length === 0 && (
-          <div className="text-center text-stone-500 py-4">
-            No Online Users!
-          </div>
-        )}
+        {/* {onlineUsers.length === 0 && (
+          
+        )} */}
       </div>
     </aside>
   );
