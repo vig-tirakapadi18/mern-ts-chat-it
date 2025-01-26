@@ -8,6 +8,7 @@ import {
 } from "../utils/constants";
 import Message from "../models/message.model";
 import cloudinary from "../db/cloudinary";
+import { getReceiverSocketId, io } from "../socketio/socket";
 
 export const getUsersForSidebar = async (req: Request, res: Response) => {
   const userId = req.userId;
@@ -77,7 +78,19 @@ export const sendMessage = async (req: Request, res: Response) => {
 
     await newMessage.save();
 
-    // TODO: socket.io will be added
+    // socket
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
+    res
+      .status(statusCodes.code201)
+      .json({
+        success: booleanValues.trueValue,
+        message: newMessage,
+      });
   } catch (error: unknown) {
     console.log("SEND MESSAGE", error);
     res.status(statusCodes.code500).json({

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import { useChatStore } from "../store/useChatStore";
 import RingSpinner from "./UI/RingSpinner";
 import ChatHeader from "./ChatHeader";
@@ -8,13 +8,36 @@ import { formatDateTime } from "../utils/formatDateTime";
 import { IMessage } from "../types";
 
 const ChatContainer: FC = (): React.JSX.Element => {
-  const { messages, getMessages, isMessagesLoading, selectedUser } =
-    useChatStore();
+  const {
+    messages,
+    getMessages,
+    isMessagesLoading,
+    selectedUser,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  } = useChatStore();
   const { authUser } = useAuthStore();
+
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     getMessages(selectedUser?._id);
-  }, [getMessages, selectedUser?._id]);
+
+    subscribeToMessages();
+
+    return () => unsubscribeFromMessages();
+  }, [
+    getMessages,
+    selectedUser?._id,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  ]);
+
+  // Scrolles to the new message
+  useEffect(() => {
+    if (messageEndRef.current && messages)
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   if (isMessagesLoading)
     return (
@@ -32,6 +55,7 @@ const ChatContainer: FC = (): React.JSX.Element => {
             className={`chat ${
               message.senderId === authUser?._id ? "chat-end" : "chat-start"
             }`}
+            ref={messageEndRef}
           >
             <div className="chat-image avatar">
               <div className="size-10 rounded-full border">
