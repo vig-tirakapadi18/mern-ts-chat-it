@@ -6,7 +6,7 @@ import { IoIosMail } from "react-icons/io";
 
 const Profile: FC = (): React.JSX.Element => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [updatedName, setUpdatedName] = useState<string>(
     authUser?.name as string
   );
@@ -21,7 +21,7 @@ const Profile: FC = (): React.JSX.Element => {
     reader.readAsDataURL(file);
     reader.onload = async () => {
       const base64Image = reader.result;
-      setSelectedImage(base64Image as any);
+      setSelectedImage(base64Image as string);
     };
   };
 
