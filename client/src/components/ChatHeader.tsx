@@ -24,7 +24,7 @@ const ChatHeader: FC = (): React.JSX.Element => {
           <div className="">
             <h3 className="font-semibold text-xl">{selectedUser?.name}</h3>
             <p className="text-sm text-gray-300 font-light mt-1">
-              {onlineUsers.includes(selectedUser?._id as any)
+              {onlineUsers.includes(selectedUser?._id as string)
                 ? "Online"
                 : "Offline"}
             </p>

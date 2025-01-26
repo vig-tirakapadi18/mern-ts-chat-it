@@ -63,6 +63,8 @@ export const useChatStore = create<IChatStore>((set, get) => ({
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
 
+    console.log(messageData)
+
     try {
       const response = await axiosInstance.post(
         `/messages/send/${selectedUser?._id}`,
@@ -87,7 +89,7 @@ export const useChatStore = create<IChatStore>((set, get) => ({
 
     const socket = useAuthStore.getState().socket;
 
-    socket.on("newMessage", (newMessage: IMessage) => {
+    socket?.on("newMessage", (newMessage: IMessage) => {
       if (newMessage.senderId !== selectedUser._id) return;
       // returns if the message is not sent from a secected User
 
@@ -97,6 +99,6 @@ export const useChatStore = create<IChatStore>((set, get) => ({
 
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
-    socket.off("newMessage");
+    socket?.off("newMessage");
   },
 }));

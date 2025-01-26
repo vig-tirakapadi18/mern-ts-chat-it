@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import { ISignInFormData, ISignUpFormData, IUpdateProfile } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -19,7 +19,7 @@ interface IAuthState {
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
   onlineUsers: string[];
-  socket: any;
+  socket: Socket | null;
   getLoggedInUser: () => void;
   signUp: (data: ISignUpFormData) => void;
   signOut: () => void;
@@ -147,6 +147,6 @@ export const useAuthStore = create<IAuthState>((set, get) => ({
   },
 
   disconnectSocket: () => {
-    if (get().socket?.connected) get().socket.disconnect();
+    if (get().socket?.connected) get().socket?.disconnect();
   },
 }));
