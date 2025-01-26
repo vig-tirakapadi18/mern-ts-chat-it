@@ -4,7 +4,9 @@
   "description": "Chat Application using MERN & SocketIO",
   "main": "app.ts",
   "scripts": {
-    "dev": "nodemon app.ts"
+    "dev": "nodemon app.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "author": "VIG",
   "license": "ISC",
