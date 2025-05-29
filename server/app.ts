@@ -13,12 +13,21 @@ import messageRoutes from "./src/routes/message.route";
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
+const allowedOrigins = [
+  process.env.CLIENT_URL as string
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Welcome!" });
