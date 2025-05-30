@@ -9,56 +9,65 @@ import User from "../models/user.model";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/generateToken";
 
-export const signUp = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password || password.length < 8) {
-    res.status(statusCodes.code400).json({
-      success: booleanValues.falseValue,
-      message: errorMessages.invalidInputRequest,
-    });
-    return;
-  }
-
-  const user = await User.findOne({ email });
-  if (user) {
-    res.status(statusCodes.code400).json({
-      success: booleanValues.falseValue,
-      message: errorMessages.userExists,
-    });
-  }
-
-  const hashedPasword = await bcrypt.hash(password, 9);
-
-  const newUser = await User.create({ ...req.body, password: hashedPasword });
-
-  if (!newUser) {
-    res.status(statusCodes.code500).json({ message: errorMessages.createUser });
-    return;
-  }
-
-  const token = generateToken(
-    { id: newUser._id.toString(), email: newUser.email },
-    res
-  );
-
-  res.status(statusCodes.code201).json({
-    success: booleanValues.trueValue,
-    message: successMessages.createUser,
-    user: {
-      name: newUser.name,
-      email: newUser.email,
-      profilePic: newUser.profilePic,
-    },
-    token,
-  });
-
+export const signUp = async (req: Request, res: Response): Promise<any> => {
   try {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password || password.length < 8) {
+      return res.status(statusCodes.code400).json({
+        success: booleanValues.falseValue,
+        message: errorMessages.invalidInputRequest,
+      });
+    }
+
+    console.log("HEY")
+
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(statusCodes.code400).json({
+        success: booleanValues.falseValue,
+        message: errorMessages.userExists,
+      });
+    }
+
+    console.log("HELLO")
+
+    // Hash password and create user
+    const hashedPasword = await bcrypt.hash(password, 9);
+    const newUser = await User.create({ ...req.body, password: hashedPasword });
+
+    console.log("HIIII")
+
+    if (!newUser) {
+      return res.status(statusCodes.code500).json({
+        message: errorMessages.createUser,
+      });
+    }
+
+    // Generate token
+    const token = generateToken(
+      { id: newUser._id.toString(), email: newUser.email },
+      res
+    );
+
+    console.log("HAHAHAHA")
+
+    // Send success response
+    return res.status(statusCodes.code201).json({
+      success: booleanValues.trueValue,
+      message: successMessages.createUser,
+      user: {
+        name: newUser.name,
+        email: newUser.email,
+        profilePic: newUser.profilePic,
+      },
+      token,
+    });
   } catch (error: unknown) {
-    console.log("SIGN UP", error);
-    res
-      .status(statusCodes.code500)
-      .json({ message: errorMessages.internalServerError });
+    console.log("SIGN UP ERROR:", error);
+    return res.status(statusCodes.code500).json({
+      message: errorMessages.internalServerError,
+    });
   }
 };
 
