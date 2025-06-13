@@ -20,7 +20,7 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
       });
     }
 
-    console.log("HEY")
+    console.log("HEY");
 
     const user = await User.findOne({ email });
     if (user) {
@@ -30,13 +30,8 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
       });
     }
 
-    console.log("HELLO")
-
-    // Hash password and create user
     const hashedPasword = await bcrypt.hash(password, 9);
     const newUser = await User.create({ ...req.body, password: hashedPasword });
-
-    console.log("HIIII")
 
     if (!newUser) {
       return res.status(statusCodes.code500).json({
@@ -44,15 +39,11 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
       });
     }
 
-    // Generate token
     const token = generateToken(
       { id: newUser._id.toString(), email: newUser.email },
       res
     );
 
-    console.log("HAHAHAHA")
-
-    // Send success response
     return res.status(statusCodes.code201).json({
       success: booleanValues.trueValue,
       message: successMessages.createUser,
